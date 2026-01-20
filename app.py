@@ -4,6 +4,7 @@ import pandas as pd
 import numpy as np
 import os  
 from PIL import Image
+from streamlit_extras.let_it_rain import rain
 
 # 페이지 설정
 st.set_page_config(page_title="공장 전력 예측 솔루션", layout="wide")
@@ -77,6 +78,15 @@ input_dict = {
 # 예측 실행
 if st.button("⚡ 전력 사용량 예측하기"):
     
+    
+    #  비 내리는 효과 추가
+    rain(
+        emoji="⚡",        
+        font_size=54,      
+        falling_speed=5,   # 
+        animation_length=1 # 
+    )
+    
     #  NSM(초)을 시간(0~23)으로 변환
     hour_val = nsm_input // 3600
     
@@ -112,6 +122,37 @@ if st.button("⚡ 전력 사용량 예측하기"):
             st.header(f"예상 전력 사용량: :blue[{prediction:.2f}] kWh")
             # 분석 리포트도 텍스트 옆에 
             st.info(f"📍 현재 설정: {month_input}월, {day_input}, {hour_val}시, {load_input} 상태")
+           # --- 실제 모델 기반 시간별 예측 데이터 생성 ---
+            st.subheader("📈 시간대별 모델 예측 추이")
+        
+            timeline_data = []
+            # 현재 선택한 시간(hour_val) 전후 5시간 확인
+            for offset in range(-5, 6):
+                target_hour = (hour_val + offset) % 24
+                # NSM도 시간에 맞춰 가상으로 계산
+                target_nsm = target_hour * 3600 
+            
+            # 모델 입력용 임시 피처 생성
+                temp_features = [[
+                    target_nsm,
+                    1 if week_status_input == "Weekend" else 0,
+                    day_num,
+                    ["Light_Load", "Maximum_Load", "Medium_Load"].index(load_input),
+                    target_hour,
+                    month_input,
+                    day_num,
+                    ["Fall", "Spring", "Summer", "Winter"].index(season_input)
+                ]]
+            
+                # 모델로 직접 예측
+                pred_val = model.predict(temp_features)[0]
+                timeline_data.append({"시간": f"{target_hour}시", "예상 사용량(kWh)": pred_val})
+
+                # 데이터프레임 변환 및 차트 출력
+            chart_df = pd.DataFrame(timeline_data).set_index("시간")
+            st.line_chart(chart_df, color="#29b5e8")
+        
+            st.caption("※ PHS만의 AI 모델이 실시간으로 계산한 결과입니다.")
 
         with col2:
             # 오른쪽 컬럼: 스폰지밥 이미지를 

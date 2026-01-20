@@ -127,7 +127,7 @@
 
 ---
 
-## 🛠 기술 스택
+## 🛠 기술 스택 & 환경
 
 * **Language**: Python 3.x
 * **Libraries**: 
@@ -138,6 +138,17 @@
 * **Environment**:
 
   * Jupyter Notebook / Google Colab
+## 설치 및 실행 방법 (Tip)
+
+**명령 프롬프트(CMD) 또는 터미널**에서 아래 명령어를 순서대로 입력하세요.
+
+* **필수 라이브러리 설치:**
+  ```bash
+  pip install streamlit pandas numpy joblib scikit-learn lightgbm pillow streamlit-extras
+
+* **홈페이지 시작**
+  ```bash
+  streamlit run app.py
 
 ---
 
@@ -145,4 +156,6 @@
 
 * 설비 변경 없이 **운영 전략만으로 에너지 절감 가능성 입증**
 * 제조·스마트팩토리 환경에서 **AI 기반 에너지 관리 모델의 실질적 활용 사례** 제시
+
+
 
