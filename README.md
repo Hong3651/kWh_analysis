@@ -130,7 +130,7 @@
 ## 🛠 기술 스택
 
 * **Language**: Python 3.x
-* **Libraries**:
+* **Libraries**: 
 
   * Pandas, Scikit-learn
   * XGBoost, LightGBM
