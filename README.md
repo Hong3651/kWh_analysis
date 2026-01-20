@@ -30,7 +30,7 @@
 
 * **데이터 누수(Data Leakage) 방지**
 
-  * 전력 사용량의 결과 변수인 `CO2`, `Reactive Power (rp)`, `Power Factor (pf)` 제거
+  * 전력 사용량의 파생/상관 변수인 `CO2`, `Reactive Power (rp)`, `Power Factor (pf)` 제거
   * 모델이 *실제 운영 변수만*으로 예측하도록 설계
 
 * **범주형 변수 처리**
